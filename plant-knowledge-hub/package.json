@@ -1,0 +1,14 @@
+{
+  "name": "plant-knowledge-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI Manufacturing Knowledge Hub demo for the Caliber hackathon (Case 1).",
+  "scripts": {
+    "start": "npx --yes serve .",
+    "dev": "npx --yes vercel dev"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0"
+  }
+}

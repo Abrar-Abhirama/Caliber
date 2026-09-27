@@ -1,0 +1,446 @@
+knowledge-base/
+├── assets/
+│   ├── CT-7801.md
+│   ├── DC-3401A.md
+│   ├── EA-5601.md
+│   ├── FA-8901.md
+│   ├── GA-1201A.md
+│   ├── KC-4501.md
+│   ├── LV-6701.md
+│   └── YD-2301.md
+├── documents/
+│   ├── CT-7801/
+│   │   ├── OPL-CT-7801-01.md
+│   │   ├── OPL-CT-7801-02.md
+│   │   ├── OPL-CT-7801-03.md
+│   │   ├── OPL-CT-7801-04.md
+│   │   ├── OPL-CT-7801-05.md
+│   │   ├── OPL-CT-7801-06.md
+│   │   ├── OPL-CT-7801-07.md
+│   │   ├── TJC-LLD-DS-CT-7801.md
+│   │   ├── TJC-LLD-GA-CT-7801.md
+│   │   ├── TJC-LLD-IL-CT-7801.md
+│   │   ├── TJC-LLD-PID-7801.md
+│   │   └── TJC-LLD-PP-CT-7801.md
+│   ├── DC-3401A/
+│   │   ├── OPL-DC-3401A-01.md
+│   │   ├── OPL-DC-3401A-02.md
+│   │   ├── OPL-DC-3401A-03.md
+│   │   ├── OPL-DC-3401A-04.md
+│   │   ├── OPL-DC-3401A-05.md
+│   │   ├── OPL-DC-3401A-06.md
+│   │   ├── OPL-DC-3401A-07.md
+│   │   ├── TJC-LLD-DS-DC-3401A.md
+│   │   ├── TJC-LLD-GA-DC-3401A.md
+│   │   ├── TJC-LLD-IL-DC-3401A.md
+│   │   ├── TJC-LLD-PID-3401.md
+│   │   └── TJC-LLD-PP-DC-3401A.md
+│   ├── EA-5601/
+│   │   ├── OPL-EA-5601-01.md
+│   │   ├── OPL-EA-5601-02.md
+│   │   ├── OPL-EA-5601-03.md
+│   │   ├── OPL-EA-5601-04.md
+│   │   ├── OPL-EA-5601-05.md
+│   │   ├── OPL-EA-5601-06.md
+│   │   ├── OPL-EA-5601-07.md
+│   │   ├── TJC-LLD-DS-EA-5601.md
+│   │   ├── TJC-LLD-GA-EA-5601.md
+│   │   ├── TJC-LLD-IL-EA-5601.md
+│   │   ├── TJC-LLD-PID-5601.md
+│   │   └── TJC-LLD-PP-EA-5601.md
+│   ├── FA-8901/
+│   │   ├── OPL-FA-8901-01.md
+│   │   ├── OPL-FA-8901-02.md
+│   │   ├── OPL-FA-8901-03.md
+│   │   ├── OPL-FA-8901-04.md
+│   │   ├── OPL-FA-8901-05.md
+│   │   ├── OPL-FA-8901-06.md
+│   │   ├── OPL-FA-8901-07.md
+│   │   ├── TJC-LLD-DS-FA-8901.md
+│   │   ├── TJC-LLD-GA-FA-8901.md
+│   │   ├── TJC-LLD-IL-FA-8901.md
+│   │   ├── TJC-LLD-PID-8901.md
+│   │   └── TJC-LLD-PP-FA-8901.md
+│   ├── GA-1201A/
+│   │   ├── OPL-GA-1201A-01.md
+│   │   ├── OPL-GA-1201A-02.md
+│   │   ├── OPL-GA-1201A-03.md
+│   │   ├── OPL-GA-1201A-05.md
+│   │   ├── OPL-GA-1201A-07.md
+│   │   ├── TJC-LLD-DS-GA-1201A.md
+│   │   ├── TJC-LLD-GA-GA-1201A.md
+│   │   ├── TJC-LLD-IL-GA-1201A.md
+│   │   ├── TJC-LLD-PID-1201.md
+│   │   └── TJC-LLD-PP-GA-1201A.md
+│   ├── KC-4501/
+│   │   ├── OPL-KC-4501-01.md
+│   │   ├── OPL-KC-4501-02.md
+│   │   ├── OPL-KC-4501-03.md
+│   │   ├── OPL-KC-4501-04.md
+│   │   ├── OPL-KC-4501-05.md
+│   │   ├── OPL-KC-4501-06.md
+│   │   ├── OPL-KC-4501-07.md
+│   │   ├── TJC-LLD-DS-KC-4501.md
+│   │   ├── TJC-LLD-GA-KC-4501.md
+│   │   ├── TJC-LLD-IL-KC-4501.md
+│   │   ├── TJC-LLD-PID-4501.md
+│   │   └── TJC-LLD-PP-KC-4501.md
+│   ├── LV-6701/
+│   │   ├── OPL-LV-6701-01.md
+│   │   ├── OPL-LV-6701-02.md
+│   │   ├── OPL-LV-6701-03.md
+│   │   ├── OPL-LV-6701-04.md
+│   │   ├── OPL-LV-6701-05.md
+│   │   ├── OPL-LV-6701-06.md
+│   │   ├── OPL-LV-6701-07.md
+│   │   ├── TJC-LLD-DS-LV-6701.md
+│   │   ├── TJC-LLD-GA-LV-6701.md
+│   │   ├── TJC-LLD-IL-LV-6701.md
+│   │   ├── TJC-LLD-PID-6701.md
+│   │   └── TJC-LLD-PP-LV-6701.md
+│   └── YD-2301/
+│       ├── OPL-YD-2301-01.md
+│       ├── OPL-YD-2301-02.md
+│       ├── OPL-YD-2301-03.md
+│       ├── OPL-YD-2301-04.md
+│       ├── OPL-YD-2301-05.md
+│       ├── OPL-YD-2301-06.md
+│       ├── OPL-YD-2301-07.md
+│       ├── TJC-LLD-DS-YD-2301.md
+│       ├── TJC-LLD-GA-YD-2301.md
+│       ├── TJC-LLD-IL-YD-2301.md
+│       ├── TJC-LLD-PID-2301.md
+│       └── TJC-LLD-PP-YD-2301.md
+├── failures/
+│   └── patterns.md
+├── images/
+│   ├── OPL-CT-7801-01.png
+│   ├── OPL-CT-7801-02.png
+│   ├── OPL-CT-7801-03.png
+│   ├── OPL-CT-7801-04.png
+│   ├── OPL-CT-7801-05.png
+│   ├── OPL-CT-7801-06.png
+│   ├── OPL-CT-7801-07.png
+│   ├── OPL-DC-3401A-01.png
+│   ├── OPL-DC-3401A-02.png
+│   ├── OPL-DC-3401A-03.png
+│   ├── OPL-DC-3401A-04.png
+│   ├── OPL-DC-3401A-05.png
+│   ├── OPL-DC-3401A-06.png
+│   ├── OPL-DC-3401A-07.png
+│   ├── OPL-EA-5601-01.png
+│   ├── OPL-EA-5601-02.png
+│   ├── OPL-EA-5601-03.png
+│   ├── OPL-EA-5601-04.png
+│   ├── OPL-EA-5601-05.png
+│   ├── OPL-EA-5601-06.png
+│   ├── OPL-EA-5601-07.png
+│   ├── OPL-FA-8901-01.png
+│   ├── OPL-FA-8901-02.png
+│   ├── OPL-FA-8901-03.png
+│   ├── OPL-FA-8901-04.png
+│   ├── OPL-FA-8901-05.png
+│   ├── OPL-FA-8901-06.png
+│   ├── OPL-FA-8901-07.png
+│   ├── OPL-GA-1201A-01.png
+│   ├── OPL-GA-1201A-02.png
+│   ├── OPL-GA-1201A-03.png
+│   ├── OPL-GA-1201A-05.png
+│   ├── OPL-GA-1201A-07.png
+│   ├── OPL-KC-4501-01.png
+│   ├── OPL-KC-4501-02.png
+│   ├── OPL-KC-4501-03.png
+│   ├── OPL-KC-4501-04.png
+│   ├── OPL-KC-4501-05.png
+│   ├── OPL-KC-4501-06.png
+│   ├── OPL-KC-4501-07.png
+│   ├── OPL-LV-6701-01.png
+│   ├── OPL-LV-6701-02.png
+│   ├── OPL-LV-6701-03.png
+│   ├── OPL-LV-6701-04.png
+│   ├── OPL-LV-6701-05.png
+│   ├── OPL-LV-6701-06.png
+│   ├── OPL-LV-6701-07.png
+│   ├── OPL-YD-2301-01.png
+│   ├── OPL-YD-2301-02.png
+│   ├── OPL-YD-2301-03.png
+│   ├── OPL-YD-2301-04.png
+│   ├── OPL-YD-2301-05.png
+│   ├── OPL-YD-2301-06.png
+│   ├── OPL-YD-2301-07.png
+│   ├── TJC-LLD-DS-CT-7801.png
+│   ├── TJC-LLD-DS-DC-3401A.png
+│   ├── TJC-LLD-DS-EA-5601.png
+│   ├── TJC-LLD-DS-FA-8901.png
+│   ├── TJC-LLD-DS-GA-1201A.png
+│   ├── TJC-LLD-DS-KC-4501.png
+│   ├── TJC-LLD-DS-LV-6701.png
+│   ├── TJC-LLD-DS-YD-2301.png
+│   ├── TJC-LLD-GA-CT-7801.png
+│   ├── TJC-LLD-GA-DC-3401A.png
+│   ├── TJC-LLD-GA-EA-5601.png
+│   ├── TJC-LLD-GA-FA-8901.png
+│   ├── TJC-LLD-GA-GA-1201A.png
+│   ├── TJC-LLD-GA-KC-4501.png
+│   ├── TJC-LLD-GA-LV-6701.png
+│   ├── TJC-LLD-GA-YD-2301.png
+│   ├── TJC-LLD-IL-CT-7801.png
+│   ├── TJC-LLD-IL-DC-3401A.png
+│   ├── TJC-LLD-IL-EA-5601.png
+│   ├── TJC-LLD-IL-FA-8901.png
+│   ├── TJC-LLD-IL-GA-1201A.png
+│   ├── TJC-LLD-IL-KC-4501.png
+│   ├── TJC-LLD-IL-LV-6701.png
+│   ├── TJC-LLD-IL-YD-2301.png
+│   ├── TJC-LLD-PID-1201.png
+│   ├── TJC-LLD-PID-2301.png
+│   ├── TJC-LLD-PID-3401.png
+│   ├── TJC-LLD-PID-4501.png
+│   ├── TJC-LLD-PID-5601.png
+│   ├── TJC-LLD-PID-6701.png
+│   ├── TJC-LLD-PID-7801.png
+│   ├── TJC-LLD-PID-8901.png
+│   ├── TJC-LLD-PP-CT-7801.png
+│   ├── TJC-LLD-PP-DC-3401A.png
+│   ├── TJC-LLD-PP-EA-5601.png
+│   ├── TJC-LLD-PP-FA-8901.png
+│   ├── TJC-LLD-PP-GA-1201A.png
+│   ├── TJC-LLD-PP-KC-4501.png
+│   ├── TJC-LLD-PP-LV-6701.png
+│   └── TJC-LLD-PP-YD-2301.png
+├── quality/
+│   └── findings.md
+├── scripts/
+│   ├── __pycache__/
+│   │   └── md_to_json.cpython-311.pyc
+│   ├── add_images.py
+│   ├── build_kb.py
+│   ├── md_to_json.py
+│   └── run_tests.py
+├── search/
+│   └── synonyms.json
+├── tests/
+│   ├── questions.jsonl
+│   └── questions.md
+├── work-orders/
+│   ├── CT-7801/
+│   │   ├── WO-240161.md
+│   │   ├── WO-240162.md
+│   │   ├── WO-240163.md
+│   │   ├── WO-240164.md
+│   │   ├── WO-240165.md
+│   │   ├── WO-240166.md
+│   │   ├── WO-240167.md
+│   │   ├── WO-240168.md
+│   │   ├── WO-240169.md
+│   │   ├── WO-240170.md
+│   │   ├── WO-240171.md
+│   │   ├── WO-240172.md
+│   │   ├── WO-240173.md
+│   │   ├── WO-240174.md
+│   │   ├── WO-240175.md
+│   │   ├── WO-240176.md
+│   │   ├── WO-240177.md
+│   │   ├── WO-240178.md
+│   │   ├── WO-240179.md
+│   │   ├── WO-240180.md
+│   │   ├── WO-240181.md
+│   │   ├── WO-240182.md
+│   │   ├── WO-240183.md
+│   │   ├── WO-240184.md
+│   │   ├── WO-240185.md
+│   │   ├── WO-240186.md
+│   │   └── WO-240187.md
+│   ├── DC-3401A/
+│   │   ├── WO-240056.md
+│   │   ├── WO-240057.md
+│   │   ├── WO-240058.md
+│   │   ├── WO-240059.md
+│   │   ├── WO-240060.md
+│   │   ├── WO-240061.md
+│   │   ├── WO-240062.md
+│   │   ├── WO-240063.md
+│   │   ├── WO-240064.md
+│   │   ├── WO-240065.md
+│   │   ├── WO-240066.md
+│   │   ├── WO-240067.md
+│   │   ├── WO-240068.md
+│   │   ├── WO-240069.md
+│   │   ├── WO-240070.md
+│   │   ├── WO-240071.md
+│   │   ├── WO-240072.md
+│   │   ├── WO-240073.md
+│   │   ├── WO-240074.md
+│   │   ├── WO-240075.md
+│   │   ├── WO-240076.md
+│   │   ├── WO-240077.md
+│   │   ├── WO-240078.md
+│   │   ├── WO-240079.md
+│   │   ├── WO-240080.md
+│   │   ├── WO-240081.md
+│   │   └── WO-240082.md
+│   ├── EA-5601/
+│   │   ├── WO-240110.md
+│   │   ├── WO-240111.md
+│   │   ├── WO-240112.md
+│   │   ├── WO-240113.md
+│   │   ├── WO-240114.md
+│   │   ├── WO-240115.md
+│   │   ├── WO-240116.md
+│   │   ├── WO-240117.md
+│   │   ├── WO-240118.md
+│   │   ├── WO-240119.md
+│   │   ├── WO-240120.md
+│   │   ├── WO-240121.md
+│   │   ├── WO-240122.md
+│   │   ├── WO-240123.md
+│   │   ├── WO-240124.md
+│   │   ├── WO-240125.md
+│   │   ├── WO-240126.md
+│   │   ├── WO-240127.md
+│   │   ├── WO-240128.md
+│   │   ├── WO-240129.md
+│   │   ├── WO-240130.md
+│   │   ├── WO-240131.md
+│   │   ├── WO-240132.md
+│   │   ├── WO-240133.md
+│   │   └── WO-240134.md
+│   ├── FA-8901/
+│   │   ├── WO-240188.md
+│   │   ├── WO-240189.md
+│   │   ├── WO-240190.md
+│   │   ├── WO-240191.md
+│   │   ├── WO-240192.md
+│   │   ├── WO-240193.md
+│   │   ├── WO-240194.md
+│   │   ├── WO-240195.md
+│   │   ├── WO-240196.md
+│   │   ├── WO-240197.md
+│   │   ├── WO-240198.md
+│   │   ├── WO-240199.md
+│   │   ├── WO-240200.md
+│   │   ├── WO-240201.md
+│   │   ├── WO-240202.md
+│   │   ├── WO-240203.md
+│   │   ├── WO-240204.md
+│   │   ├── WO-240205.md
+│   │   ├── WO-240206.md
+│   │   ├── WO-240207.md
+│   │   ├── WO-240208.md
+│   │   ├── WO-240209.md
+│   │   ├── WO-240210.md
+│   │   ├── WO-240211.md
+│   │   └── WO-240212.md
+│   ├── GA-1201A/
+│   │   ├── WO-240002.md
+│   │   ├── WO-240003.md
+│   │   ├── WO-240004.md
+│   │   ├── WO-240005.md
+│   │   ├── WO-240006.md
+│   │   ├── WO-240007.md
+│   │   ├── WO-240008.md
+│   │   ├── WO-240009.md
+│   │   ├── WO-240010.md
+│   │   ├── WO-240011.md
+│   │   ├── WO-240012.md
+│   │   ├── WO-240013.md
+│   │   ├── WO-240014.md
+│   │   ├── WO-240015.md
+│   │   ├── WO-240016.md
+│   │   ├── WO-240017.md
+│   │   ├── WO-240018.md
+│   │   ├── WO-240019.md
+│   │   ├── WO-240020.md
+│   │   ├── WO-240021.md
+│   │   ├── WO-240022.md
+│   │   ├── WO-240023.md
+│   │   ├── WO-240024.md
+│   │   ├── WO-240025.md
+│   │   ├── WO-240026.md
+│   │   └── WO-240027.md
+│   ├── KC-4501/
+│   │   ├── WO-240083.md
+│   │   ├── WO-240084.md
+│   │   ├── WO-240085.md
+│   │   ├── WO-240086.md
+│   │   ├── WO-240087.md
+│   │   ├── WO-240088.md
+│   │   ├── WO-240089.md
+│   │   ├── WO-240090.md
+│   │   ├── WO-240091.md
+│   │   ├── WO-240092.md
+│   │   ├── WO-240093.md
+│   │   ├── WO-240094.md
+│   │   ├── WO-240095.md
+│   │   ├── WO-240096.md
+│   │   ├── WO-240097.md
+│   │   ├── WO-240098.md
+│   │   ├── WO-240099.md
+│   │   ├── WO-240100.md
+│   │   ├── WO-240101.md
+│   │   ├── WO-240102.md
+│   │   ├── WO-240103.md
+│   │   ├── WO-240104.md
+│   │   ├── WO-240105.md
+│   │   ├── WO-240106.md
+│   │   ├── WO-240107.md
+│   │   ├── WO-240108.md
+│   │   └── WO-240109.md
+│   ├── LV-6701/
+│   │   ├── WO-240135.md
+│   │   ├── WO-240136.md
+│   │   ├── WO-240137.md
+│   │   ├── WO-240138.md
+│   │   ├── WO-240139.md
+│   │   ├── WO-240140.md
+│   │   ├── WO-240141.md
+│   │   ├── WO-240142.md
+│   │   ├── WO-240143.md
+│   │   ├── WO-240144.md
+│   │   ├── WO-240145.md
+│   │   ├── WO-240146.md
+│   │   ├── WO-240147.md
+│   │   ├── WO-240148.md
+│   │   ├── WO-240149.md
+│   │   ├── WO-240150.md
+│   │   ├── WO-240151.md
+│   │   ├── WO-240152.md
+│   │   ├── WO-240153.md
+│   │   ├── WO-240154.md
+│   │   ├── WO-240155.md
+│   │   ├── WO-240156.md
+│   │   ├── WO-240157.md
+│   │   ├── WO-240158.md
+│   │   ├── WO-240159.md
+│   │   └── WO-240160.md
+│   └── YD-2301/
+│       ├── WO-240028.md
+│       ├── WO-240029.md
+│       ├── WO-240030.md
+│       ├── WO-240031.md
+│       ├── WO-240032.md
+│       ├── WO-240033.md
+│       ├── WO-240034.md
+│       ├── WO-240035.md
+│       ├── WO-240036.md
+│       ├── WO-240037.md
+│       ├── WO-240038.md
+│       ├── WO-240039.md
+│       ├── WO-240040.md
+│       ├── WO-240041.md
+│       ├── WO-240042.md
+│       ├── WO-240043.md
+│       ├── WO-240044.md
+│       ├── WO-240045.md
+│       ├── WO-240046.md
+│       ├── WO-240047.md
+│       ├── WO-240048.md
+│       ├── WO-240049.md
+│       ├── WO-240050.md
+│       ├── WO-240051.md
+│       ├── WO-240052.md
+│       ├── WO-240053.md
+│       ├── WO-240054.md
+│       └── WO-240055.md
+├── README.md
+└── index.md

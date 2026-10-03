@@ -1,223 +1,213 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ChatMessage from "./ChatMessage.jsx";
+import AssetPicker from "./AssetPicker.jsx";
+import ModelPicker from "./ModelPicker.jsx";
+import Composer from "./Composer.jsx";
+import BrandLogo from "../common/BrandLogo.jsx";
+import { useDismiss } from "../common/useDismiss.js";
+import { snippet } from "./snippet.js";
+import {
+  IconActivity,
+  IconGauge,
+  IconLogo,
+  IconChevronDown,
+  IconNewChat,
+  IconPin,
+  IconRuler,
+  IconShield,
+  IconSidebar,
+} from "../common/icons.jsx";
 
 const SUGGESTIONS = [
-  "GA-1201A vibration is at 5.3 mm/s and rising. What should I check first?",
-  "What seal flush differential pressure is needed before starting GA-1201A?",
-  "What are the alignment tolerances for GA-1201A?",
-  "At what O2 level does YD-2301 trip?",
-];
-
-const ASSETS = [
-  { tag: "", label: "All Assets (Auto-detect)" },
-  { tag: "GA-1201A", label: "GA-1201A (Hexane Feed Pump)" },
-  { tag: "YD-2301", label: "YD-2301 (Polymer Dryer)" },
-  { tag: "DC-3401A", label: "DC-3401A (Reactor)" },
-  { tag: "KC-4501", label: "KC-4501 (Recycle Compressor)" },
-  { tag: "EA-5601", label: "EA-5601 (Solvent Heater)" },
-  { tag: "LV-6701", label: "LV-6701 (Level Control Valve)" },
-  { tag: "CT-7801", label: "CT-7801 (Cooling Tower Fan)" },
-  { tag: "FA-8901", label: "FA-8901 (Reflux Accumulator Drum)" },
+  {
+    label: "Diagnose vibration",
+    Icon: IconActivity,
+    prompt: "GA-1201A vibration is at 5.3 mm/s and rising. What should I check first?",
+  },
+  {
+    label: "Start-up checks",
+    Icon: IconGauge,
+    prompt: "What seal flush differential pressure is needed before starting GA-1201A?",
+  },
+  {
+    label: "Alignment tolerances",
+    Icon: IconRuler,
+    prompt: "What are the alignment tolerances for GA-1201A?",
+  },
+  {
+    label: "Trip limits",
+    Icon: IconShield,
+    prompt: "At what O2 level does YD-2301 trip?",
+  },
 ];
 
 export default function ChatWindow({
   messages,
   loading,
+  busy,
   onSend,
   assetContext,
   setAssetContext,
+  models,
+  model,
+  setModel,
   onSelectSource,
+  onTogglePin,
+  jumpRequest,
+  sidebarOpen,
+  onOpenSidebar,
+  onNewChat,
+  modeToggle,
 }) {
-  const [input, setInput] = useState("");
+  const scrollRef = useRef(null);
+  const [pinsOpen, setPinsOpen] = useState(false);
+  const [flashIndex, setFlashIndex] = useState(null);
+  const pinsRef = useRef(null);
+  const closePins = useCallback(() => setPinsOpen(false), []);
+  useDismiss(pinsRef, pinsOpen, closePins);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!input.trim() || loading) return;
-    onSend(input, assetContext || null);
-    setInput("");
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [messages.length, loading]);
+
+  const isEmpty = messages.length === 0;
+  const pinned = messages.map((m, i) => ({ m, i })).filter(({ m }) => m.pinned);
+
+  const jumpTo = (i) => {
+    setPinsOpen(false);
+    document.getElementById(`msg-${i}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setFlashIndex(i);
+    setTimeout(() => setFlashIndex((cur) => (cur === i ? null : cur)), 1600);
   };
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        background: "var(--panel)",
-        borderRadius: "8px",
-        border: "1px solid var(--line)",
-      }}
-    >
-      {/* Top Bar with Context Selector */}
-      <div
-        style={{
-          padding: "10px 18px",
-          background: "var(--panel2)",
-          borderBottom: "1px solid var(--line)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "0.85rem",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ color: "var(--muted)", fontWeight: 500 }}>Target Asset:</span>
-          <select
-            value={assetContext}
-            onChange={(e) => setAssetContext(e.target.value)}
-            style={{
-              padding: "4px 8px",
-              borderRadius: "4px",
-              border: "1px solid var(--line)",
-              background: "var(--panel)",
-              color: "var(--ink)",
-              fontSize: "0.82rem",
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            {ASSETS.map((a) => (
-              <option key={a.tag} value={a.tag}>
-                {a.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div style={{ color: "var(--muted)", fontSize: "0.78rem" }}>
-          Grounding: 315 Engineering Docs & 211 Work Orders
-        </div>
-      </div>
+  // Jump requested from the sidebar's Pinned list; wait a tick so the chat has rendered
+  // and the scroll-to-bottom above doesn't win.
+  useEffect(() => {
+    if (!jumpRequest) return;
+    const t = setTimeout(() => jumpTo(jumpRequest.index), 120);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jumpRequest]);
 
-      {/* Messages Area */}
-      <div
-        style={{
-          flex: 1,
-          padding: "24px",
-          overflowY: "auto",
-          display: "grid",
-          gap: "18px",
-          alignContent: "start",
-        }}
-      >
-        {messages.length === 0 && (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "48px",
-              display: "grid",
-              gap: "16px",
-              maxWidth: "680px",
-              margin: "48px auto 0",
-            }}
-          >
-            <h2 style={{ color: "var(--ink)", fontSize: "1.4rem" }}>
-              Plant Operations AI Assistant
-            </h2>
-            <p style={{ color: "var(--muted)", fontSize: "0.95rem", lineHeight: 1.6 }}>
-              Ask any question about standard operating procedures (OPLs), safety interlock matrices,
-              bills of materials, past failure work orders, or labor costs.
-            </p>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                justifyContent: "center",
-                marginTop: "12px",
-              }}
+  const tools = (
+    <>
+      <AssetPicker value={assetContext} onChange={setAssetContext} />
+      <ModelPicker models={models} value={model} onChange={setModel} />
+    </>
+  );
+
+  return (
+    <div className="chat">
+      <header className={`topbar ${modeToggle ? "has-toggle" : ""}`}>
+        <div className="topbar-left">
+          {!sidebarOpen && (
+            <>
+              <button className="icon-btn" onClick={onOpenSidebar} aria-label="Open sidebar" title="Open sidebar">
+                <IconSidebar />
+              </button>
+              <button className="icon-btn" onClick={onNewChat} aria-label="New chat" title="New chat">
+                <IconNewChat />
+              </button>
+            </>
+          )}
+          <span className="topbar-brand">
+            <BrandLogo size={22} className="brand-top" />
+            <span className="topbar-title">Plant Assistant</span>
+          </span>
+        </div>
+        {modeToggle}
+      </header>
+
+      {!isEmpty && pinned.length > 0 && (
+        <div className="pinbar">
+          <div className="pinbar-inner" ref={pinsRef}>
+            <button
+              type="button"
+              className="pinbar-toggle"
+              onClick={() => setPinsOpen((o) => !o)}
+              aria-expanded={pinsOpen}
             >
-              {SUGGESTIONS.map((s, i) => (
-                <button
+              <IconPin width={15} height={15} />
+              {pinned.length} pinned
+              <IconChevronDown width={13} height={13} className={pinsOpen ? "flip" : ""} />
+            </button>
+            {pinsOpen && (
+              <ul className="pinbar-list">
+                {pinned.map(({ m, i }) => (
+                  <li key={i} className="pinbar-item">
+                    <button type="button" className="pinbar-jump" onClick={() => jumpTo(i)} title="Go to message">
+                      <span className="pinbar-who">{m.role === "user" ? "You" : "Assistant"}</span>
+                      <span className="pinbar-text">{snippet(m) || "Message"}</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="icon-btn sm pinbar-unpin"
+                      onClick={() => onTogglePin(i)}
+                      aria-label="Unpin message"
+                      title="Unpin"
+                    >
+                      <IconPin width={15} height={15} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+
+      {isEmpty ? (
+        <div className="chat-empty">
+          <div className="chat-empty-head">
+            <BrandLogo size={52} className="brand-hero" />
+            <h1 className="chat-empty-title">What can I help with?</h1>
+          </div>
+          <Composer onSend={onSend} disabled={busy} assetContext={assetContext} tools={tools} autoFocus />
+          <div className="suggestions">
+            {SUGGESTIONS.map(({ label, Icon, prompt }) => (
+              <button key={label} className="suggestion" onClick={() => onSend(prompt)} disabled={busy} title={prompt}>
+                <Icon width={16} height={16} />
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="chat-scroll" ref={scrollRef}>
+            <div className="thread">
+              {messages.map((msg, i) => (
+                <ChatMessage
                   key={i}
-                  onClick={() => onSend(s, assetContext || null)}
-                  style={{
-                    padding: "7px 14px",
-                    borderRadius: "18px",
-                    border: "1px solid var(--line)",
-                    background: "var(--panel2)",
-                    color: "var(--accent)",
-                    cursor: "pointer",
-                    fontSize: "0.82rem",
-                    fontWeight: 500,
-                    transition: "all 0.15s ease",
-                  }}
-                >
-                  {s}
-                </button>
+                  id={`msg-${i}`}
+                  message={msg}
+                  flash={flashIndex === i}
+                  onSelectSource={onSelectSource}
+                  onTogglePin={() => onTogglePin(i)}
+                />
               ))}
+              {loading && (
+                <div className="msg msg-assistant" aria-live="polite">
+                  <div className="msg-avatar">
+                    <IconLogo width={18} height={18} />
+                  </div>
+                  <div className="thinking">
+                    <span className="thinking-dot" />
+                    <span className="thinking-text">Thinking</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        )}
-
-        {messages.map((msg, i) => (
-          <ChatMessage key={i} message={msg} onSelectSource={onSelectSource} />
-        ))}
-
-        {loading && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              color: "var(--accent)",
-              fontSize: "0.9rem",
-              padding: "12px 0",
-            }}
-          >
-            <span style={{ animation: "spin 1s infinite linear" }}>⚙️</span>
-            <span>Searching 2,022 passages & synthesizing answer with Gemini...</span>
+          <div className="composer-dock">
+            <Composer onSend={onSend} disabled={busy} assetContext={assetContext} tools={tools} />
+            <p className="disclaimer">
+              Plant Assistant can make mistakes. Check critical setpoints against the source.
+            </p>
           </div>
-        )}
-      </div>
-
-      {/* Input Form */}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          padding: "16px 20px",
-          borderTop: "1px solid var(--line)",
-          display: "flex",
-          gap: "12px",
-        }}
-      >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={
-            assetContext
-              ? `Ask about ${assetContext}, trip limits, or procedures...`
-              : "Ask about any equipment, setpoints, procedures, or work orders..."
-          }
-          style={{
-            flex: 1,
-            padding: "12px 16px",
-            borderRadius: "6px",
-            border: "1px solid var(--line)",
-            background: "var(--bg)",
-            color: "var(--ink)",
-            fontSize: "0.95rem",
-            outline: "none",
-          }}
-        />
-        <button
-          type="submit"
-          disabled={loading || !input.trim()}
-          style={{
-            padding: "12px 24px",
-            background: loading || !input.trim() ? "var(--muted)" : "var(--accent)",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            fontWeight: 600,
-            fontSize: "0.95rem",
-            cursor: loading || !input.trim() ? "not-allowed" : "pointer",
-            transition: "background 0.15s ease",
-          }}
-        >
-          Ask
-        </button>
-      </form>
+        </>
+      )}
     </div>
   );
 }

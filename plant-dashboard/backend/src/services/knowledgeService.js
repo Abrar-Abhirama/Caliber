@@ -385,12 +385,15 @@ class KnowledgeService {
     return { cleanedQuery: s, notes };
   }
 
-  async searchPassages(rawQuery, assetContext = null, limit = 6) {
+  // `scope` (Inspect mode) limits retrieval to one P&ID set: { allowed: Set<ref>, boost: Set<ref>, asset }.
+  // Records outside `allowed` are never scored or returned.
+  async searchPassages(rawQuery, assetContext = null, limit = 6, scope = null) {
     if (!this.chunks.length) return { query: rawQuery, totalHits: 0, passages: [] };
 
     // Support empty/browse queries (e.g. browsing documents by asset in Knowledge Page)
     if (!rawQuery || !rawQuery.trim() || rawQuery.trim() === "*") {
       let docs = Array.from(this.docMap.values());
+      if (scope) docs = docs.filter((d) => scope.allowed.has(d.ref));
       if (assetContext) {
         docs = docs.filter((d) => d.tag === assetContext);
       }
@@ -472,6 +475,9 @@ class KnowledgeService {
       matchedTag = assetContext;
     }
 
+    // Inside a P&ID set every record already belongs to the set's asset.
+    if (scope) matchedTag = scope.asset;
+
     // BM25 calculation
     const N = this.chunks.length;
     const k1 = 1.3;
@@ -479,6 +485,7 @@ class KnowledgeService {
     const scored = [];
 
     for (const chunk of this.chunks) {
+      if (scope && !scope.allowed.has(chunk.ref)) continue;
       let score = 0;
       for (const w of qset) {
         const tf = chunk.tf.get(w);
@@ -509,6 +516,9 @@ class KnowledgeService {
         if (chunk.ref === "KB-FAILURE-PATTERNS" && isPlantWide) score *= 1.3;
       }
 
+      // Scoped to an OPL: favour the OPL itself and its linked work orders.
+      if (scope?.boost.has(chunk.ref)) score *= 1.8;
+
       scored.push({ chunk, score });
     }
 
@@ -519,6 +529,7 @@ class KnowledgeService {
 
     for (const item of scored) {
       if (seenRefs.has(item.chunk.ref)) continue;
+      if (scope && !scope.allowed.has(item.chunk.ref)) continue;
       seenRefs.add(item.chunk.ref);
 
       const docInfo = this.docMap.get(item.chunk.ref);

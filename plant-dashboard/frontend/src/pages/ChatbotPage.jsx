@@ -1,27 +1,34 @@
 import { useState } from "react";
 import ChatWindow from "../components/chatbot/ChatWindow.jsx";
 import SourceDrawer from "../components/chatbot/SourceDrawer.jsx";
-import { useChat } from "../hooks/useChat.js";
+import { useModels } from "../hooks/useModels.js";
 
-export default function ChatbotPage() {
-  const { messages, loading, sendMessage } = useChat();
+export default function ChatbotPage({ chat, jumpRequest, sidebarOpen, onOpenSidebar, onNewChat, modeToggle }) {
   const [selectedSource, setSelectedSource] = useState(null);
   const [assetContext, setAssetContext] = useState("");
+  const { models, model, setModel } = useModels();
 
   return (
-    <div style={{ padding: "20px", height: "calc(100vh - 65px)", position: "relative", boxSizing: "border-box" }}>
+    <>
       <ChatWindow
-        messages={messages}
-        loading={loading}
-        onSend={sendMessage}
+        messages={chat.messages}
+        loading={chat.loading}
+        busy={chat.busy}
+        onSend={(text) => chat.sendMessage(text, assetContext || null, model || undefined)}
         assetContext={assetContext}
         setAssetContext={setAssetContext}
+        models={models}
+        model={model}
+        setModel={setModel}
         onSelectSource={setSelectedSource}
+        onTogglePin={chat.togglePin}
+        jumpRequest={jumpRequest}
+        sidebarOpen={sidebarOpen}
+        onOpenSidebar={onOpenSidebar}
+        onNewChat={onNewChat}
+        modeToggle={modeToggle}
       />
-      <SourceDrawer
-        source={selectedSource}
-        onClose={() => setSelectedSource(null)}
-      />
-    </div>
+      <SourceDrawer source={selectedSource} onClose={() => setSelectedSource(null)} />
+    </>
   );
 }

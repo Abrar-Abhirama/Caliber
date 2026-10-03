@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ImageModal from "../common/ImageModal.jsx";
+import { IconExternal } from "../common/icons.jsx";
 
 export default function SourceDrawer({ source, onClose }) {
   const [showImageModal, setShowImageModal] = useState(false);
@@ -26,7 +27,7 @@ export default function SourceDrawer({ source, onClose }) {
           borderLeft: "1px solid var(--line)",
           padding: "20px",
           zIndex: 1000,
-          boxShadow: "-4px 0 24px rgba(0,0,0,0.18)",
+          boxShadow: "var(--shadow-menu)",
           display: "flex",
           flexDirection: "column",
           gap: "14px",
@@ -35,7 +36,7 @@ export default function SourceDrawer({ source, onClose }) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: "12px" }}>
           <div>
             <span style={{ fontSize: "0.72rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Document Reference</span>
-            <h3 style={{ fontSize: "1.1rem", color: "var(--accent)", margin: "2px 0 0 0", fontFamily: "var(--font-mono)" }}>{source.ref}</h3>
+            <h3 style={{ fontSize: "1rem", fontWeight: 500, color: "var(--ink)", margin: "2px 0 0 0", fontFamily: "var(--font-mono)" }}>{source.ref}</h3>
           </div>
           <button
             onClick={onClose}
@@ -59,26 +60,25 @@ export default function SourceDrawer({ source, onClose }) {
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
           {source.tag && (
-            <span style={{ padding: "3px 8px", background: "var(--accent-soft)", color: "var(--accent)", borderRadius: "4px", fontSize: "0.75rem", fontWeight: 600 }}>
+            <span style={{ padding: "2px 8px", border: "1px solid var(--line)", color: "var(--ink2)", borderRadius: "999px", fontSize: "0.75rem", fontFamily: "var(--font-mono)" }}>
               {source.tag}
             </span>
           )}
           {source.status && (
             <span
               style={{
-                padding: "3px 8px",
-                background: source.status === "Approved" || source.status === "Completed" ? "rgba(44, 117, 73, 0.12)" : "rgba(169, 100, 0, 0.12)",
-                color: source.status === "Approved" || source.status === "Completed" ? "var(--ok)" : "var(--warn)",
-                borderRadius: "4px",
+                padding: "2px 8px",
+                border: "1px solid var(--line)",
+                color: "var(--ink2)",
+                borderRadius: "999px",
                 fontSize: "0.75rem",
-                fontWeight: 600,
               }}
             >
               {source.status}
             </span>
           )}
           {source.revision && (
-            <span style={{ padding: "3px 8px", background: "var(--panel2)", color: "var(--muted)", borderRadius: "4px", fontSize: "0.75rem" }}>
+            <span style={{ padding: "2px 8px", border: "1px solid var(--line)", color: "var(--muted)", borderRadius: "999px", fontSize: "0.75rem" }}>
               Rev {source.revision}
             </span>
           )}
@@ -103,8 +103,8 @@ export default function SourceDrawer({ source, onClose }) {
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--line)" }}>
-                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--ink2)", textTransform: "uppercase" }}>
-                  Original Extracted Drawing
+                <span style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--ink2)" }}>
+                  Drawing
                 </span>
                 <span style={{ fontSize: "0.7rem", color: "var(--muted)" }}>PNG File</span>
               </div>
@@ -113,7 +113,7 @@ export default function SourceDrawer({ source, onClose }) {
                 onClick={() => setShowImageModal(true)}
                 style={{
                   height: "170px",
-                  background: "#0f172a",
+                  background: "#ffffff",
                   position: "relative",
                   cursor: "pointer",
                   display: "flex",
@@ -141,7 +141,7 @@ export default function SourceDrawer({ source, onClose }) {
                     position: "absolute",
                     bottom: "8px",
                     right: "8px",
-                    background: "rgba(15, 23, 42, 0.8)",
+                    background: "var(--badge-bg)",
                     color: "#fff",
                     fontSize: "0.72rem",
                     padding: "3px 8px",
@@ -151,7 +151,7 @@ export default function SourceDrawer({ source, onClose }) {
                     gap: "4px",
                   }}
                 >
-                  <span>🔍 Enlarge</span>
+                  <span>Enlarge</span>
                 </div>
               </div>
 
@@ -163,9 +163,9 @@ export default function SourceDrawer({ source, onClose }) {
                     padding: "6px 10px",
                     fontSize: "0.78rem",
                     fontWeight: 600,
-                    background: "var(--panel2)",
+                    background: "var(--panel)",
                     border: "1px solid var(--line)",
-                    borderRadius: "4px",
+                    borderRadius: "8px",
                     color: "var(--ink)",
                     cursor: "pointer",
                   }}
@@ -178,10 +178,10 @@ export default function SourceDrawer({ source, onClose }) {
                     padding: "6px 12px",
                     fontSize: "0.78rem",
                     fontWeight: 600,
-                    background: "var(--accent)",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
+                    background: "var(--panel)",
+                    color: "var(--ink)",
+                    border: "1px solid var(--line)",
+                    borderRadius: "8px",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
@@ -189,7 +189,7 @@ export default function SourceDrawer({ source, onClose }) {
                   }}
                 >
                   <span>Open in Browser</span>
-                  <span>↗</span>
+                  <IconExternal width={14} height={14} />
                 </button>
               </div>
             </div>

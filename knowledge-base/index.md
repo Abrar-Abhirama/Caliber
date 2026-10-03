@@ -31,7 +31,9 @@ Generated from the CALIBER Case 1 dataset. Equipment tag is the join key across 
 | [OPL-GA-1201A-01](documents/GA-1201A/OPL-GA-1201A-01.md) | GA-1201A | OPL | Mechanical Seal Flush (API Plan 11) Verification | - | Approved | Arya Wibisono (EMP-0912) |
 | [OPL-GA-1201A-02](documents/GA-1201A/OPL-GA-1201A-02.md) | GA-1201A | OPL | Bearing Oil Bath Level & Greasing | - | Approved | Arya Wibisono (EMP-0912) |
 | [OPL-GA-1201A-03](documents/GA-1201A/OPL-GA-1201A-03.md) | GA-1201A | OPL | Pump-Motor Alignment Check (Laser) | - | Approved | Arya Wibisono (EMP-0912) |
+| [OPL-GA-1201A-04](documents/GA-1201A/OPL-GA-1201A-04.md) | GA-1201A | OPL | Minimum Flow Line Operation & Deadhead Protection | - | Approved | Arya Wibisono (EMP-0912) |
 | [OPL-GA-1201A-05](documents/GA-1201A/OPL-GA-1201A-05.md) | GA-1201A | OPL | Cold Alignment vs Hot Check for Hexane Service | - | Approved | Arya Wibisono (EMP-0912) |
+| [OPL-GA-1201A-06](documents/GA-1201A/OPL-GA-1201A-06.md) | GA-1201A | OPL | Start-Up & Priming Procedure GA-1201A | - | Approved | Arya Wibisono (EMP-0912) |
 | [OPL-GA-1201A-07](documents/GA-1201A/OPL-GA-1201A-07.md) | GA-1201A | OPL | Vibration Trend Monitoring & Alarm Response (VSHH-1201) | - | Pending approval | - |
 | [TJC-LLD-PP-GA-1201A](documents/GA-1201A/TJC-LLD-PP-GA-1201A.md) | GA-1201A | Plot Plan | Plot Plan - GA-1201A | 0 | Issued for Construction | - |
 | [TJC-LLD-PID-1201](documents/GA-1201A/TJC-LLD-PID-1201.md) | GA-1201A | P&ID | P&ID - GA-1201A | - | Number resolved from datasheet (title block shows TJC-LLD-PID-XXXX) | - |

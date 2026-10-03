@@ -1,5 +1,6 @@
 import { config } from "../config/index.js";
 import { logger } from "../utils/logger.js";
+import { DEFAULT_GEMINI_MODEL } from "../config/geminiModels.js";
 
 const CURATED_ANSWERS = [
   {
@@ -41,20 +42,26 @@ const CURATED_ANSWERS = [
   }
 ];
 
+// Inspect mode: the sources were already filtered to one P&ID set; tell the model not to reach beyond them.
+const scopeNote = (scope) =>
+  scope
+    ? `Scope: the user is inspecting P&ID set ${scope.pid}${scope.opl ? ` (OPL ${scope.opl})` : ""}. The sources below are only the documents, OPLs and work orders linked to this P&ID. Do not answer about other P&IDs or equipment; if the answer is not in these sources, say it is not recorded for this P&ID.`
+    : "";
+
 class AIService {
   constructor() {
     this.geminiApiKey = config.geminiApiKey;
     this.anthropicApiKey = config.anthropicApiKey;
   }
 
-  async generateAnswer({ question, passages, assetContext }) {
+  async generateAnswer({ question, passages, assetContext, scope, model }) {
     let lastApiError = null;
     const geminiKey = process.env.GEMINI_API_KEY || config.geminiApiKey || this.geminiApiKey;
     if (geminiKey) {
       try {
         this.geminiApiKey = geminiKey;
         logger.info("Calling Google Gemini API...");
-        return await this.callGemini({ question, passages, assetContext });
+        return await this.callGemini({ question, passages, assetContext, scope, model });
       } catch (err) {
         lastApiError = err.message;
         logger.error("Gemini API call failed, trying fallback:", err.message);
@@ -65,7 +72,7 @@ class AIService {
     if (this.anthropicApiKey) {
       try {
         logger.info("Calling Anthropic Claude API...");
-        return await this.callAnthropic({ question, passages, assetContext });
+        return await this.callAnthropic({ question, passages, assetContext, scope });
       } catch (err) {
         lastApiError = err.message;
         logger.error("Anthropic API call failed, falling back to retrieval mode:", err.message);
@@ -84,6 +91,9 @@ class AIService {
         confidence: match.confidence,
         cautions: match.cautions,
         mode: lastApiError ? "Offline Fallback (Gemini API 503 Spike)" : "Offline Demo Mode (Scripted Answer)",
+        model: null,
+        fallback: true,
+        fallbackReason: lastApiError ? "No Gemini model answered; scripted answer" : "No API key; scripted answer",
         sources: passages,
       };
     }
@@ -97,6 +107,9 @@ class AIService {
         confidence: 20,
         cautions: ["Try specifying the asset tag (e.g., GA-1201A, KC-4501)."],
         mode: "Retrieval only (Offline)",
+        model: null,
+        fallback: true,
+        fallbackReason: "No model answered; nothing retrieved",
         sources: [],
       };
     }
@@ -120,11 +133,14 @@ class AIService {
       confidence: Math.min(85, Math.round(topPassage.score * 1.5)),
       cautions,
       mode: lastApiError ? "Local Grounded Fallback (Gemini High Demand Spike)" : "Grounded retrieval (Offline)",
+      model: null,
+      fallback: true,
+      fallbackReason: lastApiError ? `No Gemini model answered (${lastApiError.slice(0, 120)}); showing top record` : "No API key; showing top record",
       sources: passages,
     };
   }
 
-  async callGemini({ question, passages, assetContext }) {
+  async callGemini({ question, passages, assetContext, scope, model: preferredModel }) {
     const labeledSources = passages
       .map((p, i) => `[S${i + 1}] (${p.ref}) ${p.title} [Tag: ${p.tag || "N/A"}] [Status: ${p.status || "N/A"}]\n${p.text.slice(0, 3500)}`)
       .join("\n\n");
@@ -132,6 +148,7 @@ class AIService {
     const systemInstruction = `You are an expert AI Plant Knowledge Hub assistant for an industrial chemical plant (LLDPE unit).
 A plant engineer asked: "${question}"
 ${assetContext ? `Active Asset Context: ${assetContext}` : ""}
+${scopeNote(scope)}
 
 CRITICAL INSTRUCTIONS:
 1. Answer comprehensively using the provided numbered sources below.
@@ -153,9 +170,12 @@ CRITICAL INSTRUCTIONS:
 Sources:
 ${labeledSources}`;
 
-    // Candidate models in preference order (3.8-flash primary, 3.5-flash secondary fallback)
-    const candidateModels = ["gemini-3.8-flash", "gemini-3.5-flash"];
+    // The model picked in the UI goes first; on 503/429/404 fall back to the default Flash models.
+    // Fallbacks stay on free-tier models so a free API key never hits a paid model.
+    const candidateModels = [...new Set([preferredModel, DEFAULT_GEMINI_MODEL, "gemini-3.5-flash-lite"].filter(Boolean))];
     let lastError = null;
+    // Why each earlier model was skipped, so the answer can say it fell back.
+    const skipped = [];
 
     for (const model of candidateModels) {
       try {
@@ -177,6 +197,7 @@ ${labeledSources}`;
           const errText = await response.text();
           logger.warn(`Model ${model} returned HTTP ${response.status}: ${errText.slice(0, 160)}`);
           lastError = new Error(`Gemini API error (${response.status}) on ${model}: ${errText}`);
+          skipped.push(`${model}: HTTP ${response.status}`);
           // If 503 (high demand) or 429 (rate limit), continue to next model in pool
           if (response.status === 503 || response.status === 429 || response.status === 404) {
             continue;
@@ -210,9 +231,15 @@ ${labeledSources}`;
           cautions: parsed.cautions || [],
           mode: `Generated by Google Gemini (${model}) with Knowledge Citations`,
           sources: passages,
+          // modelVersion is what Gemini reports it actually ran.
+          model: data.modelVersion || model,
+          requestedModel: preferredModel || null,
+          fallback: model !== candidateModels[0],
+          fallbackReason: skipped.length ? skipped.join("; ") : null,
         };
       } catch (err) {
         lastError = err;
+        if (!skipped.some((x) => x.startsWith(`${model}:`))) skipped.push(`${model}: ${err.message.slice(0, 80)}`);
         logger.warn(`Model ${model} failed: ${err.message}. Trying next model...`);
       }
     }
@@ -220,12 +247,13 @@ ${labeledSources}`;
     throw lastError || new Error("All candidate Gemini models failed to respond.");
   }
 
-  async callAnthropic({ question, passages, assetContext }) {
+  async callAnthropic({ question, passages, assetContext, scope }) {
     const labeledSources = passages.map((p, i) => `[S${i + 1}] (${p.ref}) ${p.title} [Status: ${p.status || "N/A"}]\n${p.text.slice(0, 1000)}`).join("\n\n");
 
     const prompt = `You are an AI Plant Knowledge Hub assistant for an industrial chemical plant.
 A plant engineer asked: "${question}"
 ${assetContext ? `Active Asset Context: ${assetContext}` : ""}
+${scopeNote(scope)}
 
 Answer ONLY using the provided numbered sources below.
 Cite every factual claim with source numbers in square brackets like [S1], [S2].

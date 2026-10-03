@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IconExternal } from "./icons.jsx";
 
 export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
   const [zoom, setZoom] = useState(1);
@@ -24,7 +25,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(10, 15, 25, 0.85)",
+        backgroundColor: "rgba(0, 0, 0, 0.85)",
         backdropFilter: "blur(6px)",
         zIndex: 9999,
         display: "flex",
@@ -40,7 +41,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "14px 24px",
-          background: "rgba(15, 23, 42, 0.95)",
+          background: "rgba(23, 23, 23, 0.95)",
           borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
           color: "#fff",
         }}
@@ -50,11 +51,13 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
             style={{
               fontFamily: "var(--font-mono, monospace)",
               fontSize: "0.9rem",
-              background: "var(--accent, #0284c7)",
+              background: "rgba(255,255,255,0.12)",
               color: "#fff",
               padding: "3px 8px",
               borderRadius: "4px",
-              fontWeight: 700,
+              fontWeight: 500,
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             {refName || "DOCUMENT"}
@@ -66,7 +69,9 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
                 background: "rgba(255,255,255,0.12)",
                 padding: "2px 8px",
                 borderRadius: "4px",
-                color: "#e2e8f0",
+                color: "#e5e5e5",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
             >
               {tag}
@@ -76,7 +81,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
             style={{
               fontSize: "0.95rem",
               fontWeight: 600,
-              color: "#f8fafc",
+              color: "#fafafa",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -104,7 +109,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
             >
               -
             </button>
-            <span style={{ color: "#cbd5e1", fontSize: "0.8rem", padding: "6px 4px", minWidth: "45px", textAlign: "center" }}>
+            <span style={{ color: "#d4d4d4", fontSize: "0.8rem", padding: "6px 4px", minWidth: "45px", textAlign: "center" }}>
               {Math.round(zoom * 100)}%
             </span>
             <button
@@ -128,7 +133,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
               style={{
                 background: "transparent",
                 border: "none",
-                color: "#94a3b8",
+                color: "#a3a3a3",
                 padding: "6px 8px",
                 cursor: "pointer",
                 fontSize: "0.75rem",
@@ -145,18 +150,18 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              background: "#0284c7",
-              color: "#fff",
+              background: "#ffffff",
+              color: "#0d0d0d",
               border: "none",
               padding: "7px 14px",
               borderRadius: "6px",
               cursor: "pointer",
               fontSize: "0.82rem",
-              fontWeight: 600,
+              fontWeight: 500,
             }}
           >
             <span>Open in Browser</span>
-            <span style={{ fontSize: "1rem" }}>↗</span>
+            <IconExternal width={14} height={14} />
           </button>
 
           <button
@@ -164,7 +169,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
             style={{
               background: "rgba(255,255,255,0.1)",
               border: "none",
-              color: "#cbd5e1",
+              color: "#d4d4d4",
               width: "34px",
               height: "34px",
               borderRadius: "6px",
@@ -190,8 +195,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
           justifyContent: "center",
           alignItems: "center",
           padding: "24px",
-          background: "radial-gradient(#1e293b 1px, #0f172a 1px)",
-          backgroundSize: "20px 20px",
+          background: "transparent",
         }}
       >
         <img
@@ -216,9 +220,9 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
         onClick={(e) => e.stopPropagation()}
         style={{
           padding: "10px 24px",
-          background: "rgba(15, 23, 42, 0.95)",
+          background: "rgba(23, 23, 23, 0.95)",
           borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-          color: "#94a3b8",
+          color: "#a3a3a3",
           fontSize: "0.8rem",
           display: "flex",
           justifyContent: "space-between",
@@ -227,7 +231,7 @@ export default function ImageModal({ imageUrl, title, refName, tag, onClose }) {
       >
         <div>Original engineering sheet extracted from plant repository documents.</div>
         <div style={{ display: "flex", gap: "16px" }}>
-          <span>Tip: Click <b>Open in Browser ↗</b> for raw full-resolution print & download</span>
+          <span>Tip: Click <b>Open in Browser</b> for raw full-resolution print & download</span>
         </div>
       </div>
     </div>

@@ -99,4 +99,4 @@ This overwrites generated files, so keep hand edits in a separate copy. `failure
 
 ## Known data issues
 
-See `quality/findings.md`. The main ones: GA-1201A pumping temperature 40 degC (datasheet) vs 80 degC (OPL hazard note), YD-2301 packing grade 4526L vs 4505L, 26 WOs missing downtime or cost, P&ID numbers are placeholders (XXXX), GA-1201A OPL-04 and 06 missing.
+See `quality/findings.md`. The main ones: GA-1201A pumping temperature 40 degC (datasheet) vs 80 degC (OPL hazard note), YD-2301 packing grade 4526L vs 4505L, 26 WOs missing downtime or cost, P&ID numbers are placeholders (XXXX). GA-1201A OPL-04 and 06 were added on 2026-10-03 from the supplied PDFs (no page image yet).

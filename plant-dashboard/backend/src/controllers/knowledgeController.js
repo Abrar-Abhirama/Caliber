@@ -1,4 +1,5 @@
 import { knowledgeService } from "../services/knowledgeService.js";
+import { pdfService } from "../services/pdfService.js";
 
 export const knowledgeController = {
   async search(req, res, next) {
@@ -21,4 +22,34 @@ export const knowledgeController = {
       next(error);
     }
   },
+
+  async uploadPdf(req, res, next) {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ success: false, error: "No PDF file uploaded." });
+      }
+
+      if (req.file.mimetype !== "application/pdf" && !req.file.originalname.toLowerCase().endsWith(".pdf")) {
+        return res.status(400).json({ success: false, error: "Only PDF files are supported." });
+      }
+
+      const { title, assetTag, docType } = req.body;
+      const result = await pdfService.processAndAddPdf({
+        buffer: req.file.buffer,
+        originalFilename: req.file.originalname,
+        customTitle: title,
+        customAssetTag: assetTag,
+        customDocType: docType,
+      });
+
+      res.status(201).json({
+        success: true,
+        message: "PDF successfully processed and indexed into Knowledge Base.",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
+

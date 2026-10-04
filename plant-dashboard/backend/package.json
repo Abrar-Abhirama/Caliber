@@ -11,8 +11,14 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "multer": "^2.4.0",
+    "pdf-parse": "^2.4.5"
   },
-  "keywords": ["express", "ai", "plant-dashboard"],
+  "keywords": [
+    "express",
+    "ai",
+    "plant-dashboard"
+  ],
   "license": "ISC"
 }

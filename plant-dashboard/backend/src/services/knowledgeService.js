@@ -414,6 +414,9 @@ class KnowledgeService {
           revision: d.meta?.revision || null,
           status: d.meta?.status || null,
           approvedBy: d.meta?.approved_by || null,
+          pdfUrl: d.meta?.pdf_url || null,
+          sourceFormat: d.meta?.source_format || null,
+          docType: d.meta?.doc_type || null,
         };
       });
       return {
@@ -550,6 +553,9 @@ class KnowledgeService {
         revision: docInfo?.meta?.revision || null,
         status: docInfo?.meta?.status || null,
         approvedBy: docInfo?.meta?.approved_by || null,
+        pdfUrl: docInfo?.meta?.pdf_url || null,
+        sourceFormat: docInfo?.meta?.source_format || null,
+        docType: docInfo?.meta?.doc_type || null,
       });
 
       if (hits.length >= limit) break;
@@ -579,6 +585,9 @@ class KnowledgeService {
       meta: doc.meta,
       image: directImage || assetImage,
       isAssetDrawing: !directImage && !!assetImage,
+      pdfUrl: doc.meta?.pdf_url || null,
+      sourceFormat: doc.meta?.source_format || null,
+      docType: doc.meta?.doc_type || null,
       body: doc.body,
     };
   }

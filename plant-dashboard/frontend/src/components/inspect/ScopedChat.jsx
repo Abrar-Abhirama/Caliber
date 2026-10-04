@@ -1,4 +1,4 @@
-import { Markdown, ModelLabel } from "../chatbot/ChatMessage.jsx";
+import { Markdown, ModelLabel, CopyButton } from "../chatbot/ChatMessage.jsx";
 import Composer from "../chatbot/Composer.jsx";
 import ModelPicker from "../chatbot/ModelPicker.jsx";
 import { IconAlert, IconLock, IconLogo } from "../common/icons.jsx";
@@ -51,7 +51,20 @@ export function ScopedAnswers({ answers, pid, onSelectSource }) {
                     <span>No linked record in {pid} matched this question.</span>
                   )}
                 </div>
-                <ModelLabel message={a.data} />
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "8px" }}>
+                  <CopyButton
+                    text={[
+                      a.question ? `Question: ${a.question}` : "",
+                      a.data?.answer || "",
+                      a.data?.steps?.length ? `Steps:\n${a.data.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}` : "",
+                      a.data?.sources?.length ? `Sources:\n${a.data.sources.map((s) => `- [${s.ref}] ${s.title || s.ref}`).join("\n")}` : "",
+                    ]
+                      .filter(Boolean)
+                      .join("\n\n")}
+                    title="Copy answer"
+                  />
+                  <ModelLabel message={a.data} />
+                </div>
               </>
             )}
           </div>

@@ -131,7 +131,7 @@ export default function App() {
               </span>
             </header>
             <div className="knowledge-scroll">
-              <KnowledgePage />
+              <KnowledgePage onAskInChat={askInChat} />
             </div>
           </>
         )}

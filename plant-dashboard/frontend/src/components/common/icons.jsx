@@ -212,3 +212,29 @@ export const IconChart = (p) => (
     <path d="M21 20H3" />
   </svg>
 );
+
+export const IconUpload = (p) => (
+  <svg {...base} {...p}>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="17 8 12 3 7 8" />
+    <line x1="12" y1="3" x2="12" y2="15" />
+  </svg>
+);
+
+export const IconFilePdf = (p) => (
+  <svg {...base} {...p}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <path d="M9 13v4" />
+    <path d="M9 13h2a1.5 1.5 0 0 0 0-3H9" />
+    <path d="M14 17h1.5a2.5 2.5 0 0 0 0-5H14v5z" />
+  </svg>
+);
+
+export const IconPlus = (p) => (
+  <svg {...base} {...p}>
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+

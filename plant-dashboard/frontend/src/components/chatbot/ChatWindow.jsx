@@ -8,6 +8,8 @@ import { useDismiss } from "../common/useDismiss.js";
 import { snippet } from "./snippet.js";
 import {
   IconActivity,
+  IconCheck,
+  IconCopy,
   IconGauge,
   IconLogo,
   IconChevronDown,
@@ -17,6 +19,47 @@ import {
   IconShield,
   IconSidebar,
 } from "../common/icons.jsx";
+import { copyToClipboard } from "../../services/clipboard.js";
+
+export function formatConversation(messages, { assetContext, model } = {}) {
+  const parts = [];
+  parts.push("=== Plant Assistant Chat Transcript ===");
+  parts.push(`Date: ${new Date().toLocaleString()}`);
+  if (assetContext) parts.push(`Equipment / Asset: ${assetContext}`);
+  if (model) parts.push(`Model: ${model}`);
+  parts.push("----------------------------------------\n");
+
+  messages.forEach((msg) => {
+    if (msg.role === "user") {
+      parts.push(`[User]:`);
+      parts.push(msg.text || "");
+      parts.push("");
+    } else {
+      const modelInfo = msg.model ? ` (via ${msg.model})` : "";
+      parts.push(`[Plant Assistant${modelInfo}]:`);
+      if (msg.error) {
+        parts.push(`Error: ${msg.answer}`);
+      } else {
+        if (msg.answer) parts.push(msg.answer);
+        if (msg.steps && msg.steps.length > 0) {
+          parts.push("\nRecommended steps:");
+          msg.steps.forEach((s, i) => parts.push(`${i + 1}. ${s}`));
+        }
+        if (msg.cautions && msg.cautions.length > 0) {
+          parts.push("\nSafety & Operating Caution:");
+          msg.cautions.forEach((c) => parts.push(`- ${c}`));
+        }
+        if (msg.sources && msg.sources.length > 0) {
+          parts.push("\nSources cited:");
+          msg.sources.forEach((s) => parts.push(`- [${s.ref}] ${s.title || s.ref}`));
+        }
+      }
+      parts.push("\n----------------------------------------\n");
+    }
+  });
+
+  return parts.join("\n").trim();
+}
 
 const SUGGESTIONS = [
   {
@@ -90,6 +133,18 @@ export default function ChatWindow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jumpRequest]);
 
+  const [copiedChat, setCopiedChat] = useState(false);
+
+  const handleCopyChat = async () => {
+    if (!messages.length) return;
+    const transcript = formatConversation(messages, { assetContext, model });
+    const ok = await copyToClipboard(transcript);
+    if (ok) {
+      setCopiedChat(true);
+      setTimeout(() => setCopiedChat(false), 2000);
+    }
+  };
+
   const tools = (
     <>
       <AssetPicker value={assetContext} onChange={setAssetContext} />
@@ -117,6 +172,20 @@ export default function ChatWindow({
           </span>
         </div>
         {modeToggle}
+        <div className="topbar-right">
+          {!isEmpty && (
+            <button
+              type="button"
+              className={`topbar-action-btn ${copiedChat ? "is-copied" : ""}`}
+              onClick={handleCopyChat}
+              aria-label={copiedChat ? "Chat copied to clipboard" : "Copy entire conversation"}
+              title={copiedChat ? "Chat copied to clipboard!" : "Copy entire chat transcript"}
+            >
+              {copiedChat ? <IconCheck width={15} height={15} /> : <IconCopy width={15} height={15} />}
+              <span className="btn-label">{copiedChat ? "Copied Chat!" : "Copy Chat"}</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {!isEmpty && pinned.length > 0 && (

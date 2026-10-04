@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ImageModal from "../common/ImageModal.jsx";
-import { IconExternal } from "../common/icons.jsx";
+import { IconExternal, IconFilePdf } from "../common/icons.jsx";
 
 export default function SourceDrawer({ source, onClose }) {
   const [showImageModal, setShowImageModal] = useState(false);
@@ -89,6 +89,64 @@ export default function SourceDrawer({ source, onClose }) {
             <div style={{ fontSize: "0.78rem", color: "var(--muted)", marginBottom: "3px" }}>Title / Scope</div>
             <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--ink)", lineHeight: 1.4 }}>{source.title}</div>
           </div>
+
+          {/* Original PDF Document Box */}
+          {source.pdfUrl && (
+            <div
+              style={{
+                background: "var(--panel2)",
+                border: "1px solid var(--line)",
+                borderRadius: "8px",
+                padding: "12px 14px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "10px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", overflow: "hidden" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "6px",
+                    background: "rgba(239, 68, 68, 0.15)",
+                    color: "#ef4444",
+                    display: "grid",
+                    placeItems: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <IconFilePdf width={20} height={20} />
+                </div>
+                <div style={{ overflow: "hidden" }}>
+                  <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "var(--ink)" }}>Original PDF Document</div>
+                  <div style={{ fontSize: "0.72rem", color: "var(--muted)" }}>Click to open file in browser</div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => window.open(source.pdfUrl, "_blank", "noopener,noreferrer")}
+                style={{
+                  padding: "6px 12px",
+                  fontSize: "0.78rem",
+                  fontWeight: 600,
+                  background: "var(--panel)",
+                  color: "var(--ink)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span>View PDF</span>
+                <IconExternal width={13} height={13} />
+              </button>
+            </div>
+          )}
 
           {/* Original Drawing / Extracted Image Box */}
           {source.image && (

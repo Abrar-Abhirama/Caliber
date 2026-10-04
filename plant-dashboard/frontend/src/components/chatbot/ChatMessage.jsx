@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IconAlert, IconCheck, IconCopy, IconLogo, IconPin } from "../common/icons.jsx";
+import { copyToClipboard } from "../../services/clipboard.js";
 
 // Render inline formatting: citations [REF], bold **bold**, code `code`
 function renderInline(str, keyPrefix, sources, onSelectSource) {
@@ -136,22 +137,28 @@ export function ModelLabel({ message }) {
   );
 }
 
-function CopyButton({ text }) {
+export function CopyButton({ text, title = "Copy", label, className = "icon-btn sm" }) {
   const [copied, setCopied] = useState(false);
 
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
+  const copy = async (e) => {
+    e?.stopPropagation?.();
+    const success = await copyToClipboard(text);
+    if (success) {
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // Clipboard unavailable (e.g. insecure context); nothing to do.
+      setTimeout(() => setCopied(false), 1600);
     }
   };
 
   return (
-    <button className="icon-btn sm" onClick={copy} aria-label={copied ? "Copied" : "Copy answer"} title={copied ? "Copied" : "Copy"}>
+    <button
+      type="button"
+      className={`${className} ${copied ? "is-copied" : ""}`}
+      onClick={copy}
+      aria-label={copied ? "Copied" : title}
+      title={copied ? "Copied to clipboard!" : title}
+    >
       {copied ? <IconCheck width={16} height={16} /> : <IconCopy width={16} height={16} />}
+      {label && <span>{copied ? "Copied!" : label}</span>}
     </button>
   );
 }
@@ -177,7 +184,10 @@ export default function ChatMessage({ id, message, flash, onSelectSource, onTogg
   if (message.role === "user") {
     return (
       <div id={id} className={`msg msg-user-row ${stateClass}`}>
-        <PinButton pinned={!!message.pinned} onToggle={onTogglePin} />
+        <div className={`msg-user-actions ${message.pinned ? "has-pinned" : ""}`}>
+          <CopyButton text={message.text} title="Copy question" />
+          <PinButton pinned={!!message.pinned} onToggle={onTogglePin} />
+        </div>
         <div className="msg-user">{message.text}</div>
       </div>
     );
@@ -188,13 +198,16 @@ export default function ChatMessage({ id, message, flash, onSelectSource, onTogg
   const confColor =
     message.confidence >= 80 ? "var(--ok)" : message.confidence >= 55 ? "var(--warn)" : "var(--crit)";
 
-  const copyText = [
-    message.answer,
-    message.steps?.length ? message.steps.map((s, i) => `${i + 1}. ${s}`).join("\n") : "",
-    message.cautions?.length ? `Caution: ${message.cautions.join(" ")}` : "",
-  ]
-    .filter(Boolean)
-    .join("\n\n");
+  const copyText = message.error
+    ? (message.answer || "Error generating response")
+    : [
+        message.answer,
+        message.steps?.length ? `Recommended steps:\n${message.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}` : "",
+        message.cautions?.length ? `Safety & operating caution:\n${message.cautions.map((c) => `- ${c}`).join("\n")}` : "",
+        message.sources?.length ? `Sources:\n${message.sources.map((s) => `- [${s.ref}] ${s.title || s.ref}`).join("\n")}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n\n");
 
   return (
     <div id={id} className={`msg msg-assistant ${stateClass}`}>
@@ -237,21 +250,18 @@ export default function ChatMessage({ id, message, flash, onSelectSource, onTogg
           </aside>
         )}
 
-        {!message.error && (
-          <div className="msg-actions">
-            <CopyButton text={copyText} />
-            <PinButton pinned={!!message.pinned} onToggle={onTogglePin} />
-            {message.confidence != null && (
-              <span className="confidence" title="Grounding confidence">
-                <span className="conf-dot" style={{ background: confColor }} />
-                {message.confidence}% grounded
-              </span>
-            )}
-            <ModelLabel message={message} />
-          </div>
-        )}
+        <div className="msg-actions">
+          <CopyButton text={copyText} title="Copy answer" />
+          <PinButton pinned={!!message.pinned} onToggle={onTogglePin} />
+          {!message.error && message.confidence != null && (
+            <span className="confidence" title="Grounding confidence">
+              <span className="conf-dot" style={{ background: confColor }} />
+              {message.confidence}% grounded
+            </span>
+          )}
+          <ModelLabel message={message} />
+        </div>
       </div>
-
     </div>
   );
 }

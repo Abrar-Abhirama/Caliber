@@ -141,10 +141,12 @@ select {
   align-items: center;
   gap: 8px;
   padding-left: 6px;
+  white-space: nowrap;
 }
 
 .topbar-brand .topbar-title {
   padding: 0;
+  white-space: nowrap;
 }
 
 .topbar-title {
@@ -152,6 +154,7 @@ select {
   font-size: 18px;
   font-weight: 600;
   line-height: 28px;
+  white-space: nowrap;
 }
 
 .knowledge-scroll {
@@ -1226,20 +1229,75 @@ select {
   fill: currentColor;
 }
 
-.msg-user-row .pin-btn {
+.msg-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   opacity: 0;
   transition: opacity 0.15s ease;
 }
 
-.msg-user-row:hover .pin-btn,
-.msg-user-row .pin-btn:focus-visible,
-.msg-user-row .pin-btn.is-pinned {
+.msg-user-row:hover .msg-user-actions,
+.msg-user-row:focus-within .msg-user-actions,
+.msg-user-actions.has-pinned,
+.msg-user-actions .pin-btn.is-pinned,
+.msg-user-actions .icon-btn.is-copied {
   opacity: 1;
 }
 
 @media (hover: none) {
-  .msg-user-row .pin-btn {
+  .msg-user-actions {
     opacity: 1;
+  }
+}
+
+.icon-btn.is-copied {
+  color: var(--ok);
+}
+
+.topbar-right {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.topbar-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.topbar-action-btn:hover {
+  background: #ebecef;
+  border-color: #cbd0d8;
+}
+
+.topbar-action-btn.is-copied {
+  color: var(--ok);
+  border-color: var(--ok);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+@media (max-width: 640px) {
+  .topbar-action-btn {
+    padding: 0 8px;
+  }
+  .topbar-action-btn .btn-label {
+    display: none;
   }
 }
 

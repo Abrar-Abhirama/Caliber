@@ -184,6 +184,7 @@ ${labeledSources}`;
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(15000),
           body: JSON.stringify({
             contents: [{ parts: [{ text: systemInstruction }] }],
             generationConfig: {

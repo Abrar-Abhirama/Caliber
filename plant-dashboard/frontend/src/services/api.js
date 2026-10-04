@@ -33,6 +33,18 @@ export const api = {
     return res.json();
   },
 
+  async uploadPdf(formData) {
+    const res = await fetch(`${API_BASE}/knowledge/upload-pdf`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || "Failed to upload and process PDF file.");
+    }
+    return data;
+  },
+
   // Inspect mode
   async getInspectSets() {
     const res = await fetch(`${API_BASE}/inspect/sets`);

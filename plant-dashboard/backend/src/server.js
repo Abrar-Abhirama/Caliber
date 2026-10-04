@@ -17,6 +17,9 @@ app.use(express.json());
 import path from "path";
 app.use("/api/images", express.static(path.join(config.knowledgeBasePath, "images")));
 
+// Serve uploaded PDF documents from knowledge-base/uploads/pdf
+app.use("/api/documents/pdf", express.static(path.join(config.knowledgeBasePath, "uploads", "pdf")));
+
 // API Routes
 app.use("/api", routes);
 
@@ -35,7 +38,12 @@ app.get("/health", (req, res) => {
 app.use(errorHandler);
 
 // Start server
-app.listen(config.port, async () => {
+const server = app.listen(config.port, async () => {
   logger.info(`Server running on port ${config.port} in ${config.nodeEnv} mode`);
   await knowledgeService.initialize();
 });
+
+// Keep-alive timeouts to prevent ECONNRESET behind reverse proxies (like Vite proxy)
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
+

@@ -1,0 +1,9 @@
+{
+  "name": "caliber",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd plant-dashboard/backend && npm install",
+    "start": "cd plant-dashboard/backend && npm start"
+  }
+}

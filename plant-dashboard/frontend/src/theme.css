@@ -1,0 +1,149 @@
+/* App-wide theme: navy ink, pale aqua gradients, mint accent. Loaded last so it refines the shared tokens in index.css. */
+
+:root {
+  --p-navy: var(--ink);
+  --p-teal: #0f9d8a;
+  --p-mint: #2fd0b0;
+  --p-blue: #1f7ad6;
+  --p-card: linear-gradient(160deg, #ffffff 0%, #f1f8ff 55%, #e3f6fa 100%);
+  --p-line: rgba(2, 41, 75, 0.1);
+  --p-grad: linear-gradient(135deg, var(--p-teal), var(--p-blue));
+}
+
+:root[data-theme="dark"] {
+  --p-teal: #3fe0c2;
+  --p-mint: #3fe0c2;
+  --p-blue: #5aa8f5;
+  --p-card: linear-gradient(160deg, #0b2a47 0%, #0a2238 60%, #0a2c3a 100%);
+  --p-line: rgba(180, 225, 255, 0.14);
+}
+
+body {
+  letter-spacing: -0.01em;
+  font-feature-settings: normal;
+}
+
+/* Headlines: light weight, tight tracking, teal-to-blue gradient */
+.chat-empty-title,
+.ins-title h1 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg, var(--p-teal), var(--p-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Cards: soft aqua gradient, hairline navy outline, generous radius */
+.ins-card,
+.ins-set,
+.ins-stat,
+.ins-info,
+.kb-card,
+.rel-card,
+.rel-kpi,
+.rel-filtered {
+  border: 1px solid var(--p-line);
+  border-radius: 20px;
+  background: var(--p-card);
+}
+
+.composer {
+  border-radius: 28px;
+}
+
+.mode-toggle {
+  background: var(--line);
+}
+
+:root[data-theme="dark"] .mode-toggle {
+  background: var(--line);
+}
+
+.nav-item.active {
+  color: var(--ink);
+}
+
+.msg-user {
+  border: 1px solid var(--p-line);
+}
+
+.citation {
+  color: var(--blue-tag-fg);
+}
+
+/* ---------- Brand, titles, buttons and chat list: same family as the rest ---------- */
+
+/* Logo mark keeps its shape; only the fill changes to the shared teal-to-blue gradient. */
+.brand-mark svg path {
+  fill: url(#brand-grad);
+}
+
+.sidebar-brand-name,
+.topbar-title {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: var(--p-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Send / search / upload buttons */
+.send-btn {
+  background: var(--p-grad);
+  color: #ffffff;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--p-grad);
+  filter: brightness(1.08);
+}
+
+:root[data-theme="dark"] .send-btn {
+  color: #02294b;
+}
+
+/* Sidebar sections and chat names */
+.sidebar-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chat-item {
+  border-radius: 12px;
+}
+
+.chat-item-btn {
+  color: var(--ink2);
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.chat-item:hover .chat-item-btn {
+  color: var(--ink);
+}
+
+.chat-item.active .chat-item-btn {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.nav-item {
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.kb-tab.active {
+  border-color: var(--p-line);
+}
+
+/* Knowledge cards: single action, centered */
+.kb-actions {
+  justify-content: center;
+}

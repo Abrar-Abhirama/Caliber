@@ -1,37 +1,36 @@
 :root {
   color-scheme: light;
-  /* Palette: off-white page, white raised surfaces, dark grey ink. The chat area is neutral (black accent);
-     the sidebar keeps the blue accent (see .sidebar). */
-  --bg: #f0f1f3;
+  /* Palette: pale blue page, white raised surfaces, deep navy ink, mint/teal highlights. */
+  --bg: #f5f9ff;
   --surface: #ffffff;
   --panel: #ffffff;
-  --panel2: #f7f8fa;
-  --bubble: #ffffff;
+  --panel2: #f1f7ff;
+  --bubble: #eaf3ff;
   --composer: #ffffff;
   --menu: #ffffff;
-  --hover: #d1d1d1;
-  --menu-hover: #f0f1f3;
-  --ink: #1a1a1a;
-  --ink2: #3a3d42;
-  --muted: #5b5f66;
-  --line: #d1d1d1;
-  --accent: #1a1a1a;
-  --accent-hover: #333333;
-  --accent-soft: #bdbdbd;
+  --hover: #e3edf9;
+  --menu-hover: #eef5ff;
+  --ink: #02294b;
+  --ink2: #25476b;
+  --muted: #5d7791;
+  --line: #d5e2f0;
+  --accent: #02294b;
+  --accent-hover: #0a3d6e;
+  --accent-soft: #8fa8c2;
   --on-accent: #ffffff;
-  --tag-bg: #ededed;
-  --tag-bg-hover: #e0e0e0;
-  --tag-fg: #1a1a1a;
-  --blue: #0e66d8;
-  --blue-hover: #0b57b8;
-  --blue-soft: #90bde9;
-  --blue-tag-bg: #e3eefb;
-  --blue-tag-fg: #0b4fa8;
-  --badge-bg: #1a1a1a;
-  --sidebar: #ffffff;
-  --sidebar-hover: #f0f1f3;
-  --sidebar-active: #e3eefb;
-  --ok: #2c7549;
+  --tag-bg: #e8f1fb;
+  --tag-bg-hover: #d9e8f7;
+  --tag-fg: #02294b;
+  --blue: #1f7ad6;
+  --blue-hover: #1865b0;
+  --blue-soft: #9cc4ef;
+  --blue-tag-bg: #e1f0ff;
+  --blue-tag-fg: #0c4a8f;
+  --badge-bg: #02294b;
+  --sidebar: #fbfdff;
+  --sidebar-hover: #eef5ff;
+  --sidebar-active: #dcf4f4;
+  --ok: #0f8a6d;
   --warn: #9a5b00;
   --warn-soft: #fdf1e3;
   --crit: #b0271f;
@@ -39,8 +38,8 @@
   --shadow-composer: 0 0 0 1px var(--line), 0 6px 22px -14px rgba(26, 26, 26, 0.35);
   --shadow-composer-focus: 0 0 0 1px var(--accent-soft), 0 6px 22px -14px rgba(26, 26, 26, 0.35);
   --shadow-menu: 0 0 0 1px var(--line), 0 14px 30px -14px rgba(26, 26, 26, 0.35);
-  /* Inter first, then the platform UI font (SF Pro / Segoe UI / Roboto). */
-  --font-sans: "Inter", ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial,
+  /* Plus Jakarta Sans first (geometric sans), then the platform UI font (SF Pro / Segoe UI / Roboto). */
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial,
     sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --sidebar-w: 280px;
@@ -1881,4 +1880,68 @@ select {
     flex-basis: 100%;
     min-width: 0;
   }
+}
+
+/* ---------- Theme toggle (sidebar, above profile) ---------- */
+
+.theme-row {
+  flex-shrink: 0;
+  padding: 8px 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.theme-row + .profile {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+/* ---------- Dark theme ---------- */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #04182b;
+  --surface: #0a2540;
+  --panel: #0a2540;
+  --panel2: #081f36;
+  --bubble: #0f3354;
+  --composer: #0a2540;
+  --menu: #0c2a47;
+  --hover: #14395c;
+  --menu-hover: #123456;
+  --ink: #e8f4ff;
+  --ink2: #bcd3e8;
+  --muted: #86a3bd;
+  --line: #17395a;
+  --accent: #3fe0c2;
+  --accent-hover: #6aebd3;
+  --accent-soft: #2a6b6a;
+  --on-accent: #02294b;
+  --tag-bg: #0f3354;
+  --tag-bg-hover: #164266;
+  --tag-fg: #e8f4ff;
+  --blue: #5aa8f5;
+  --blue-hover: #84c0f8;
+  --blue-soft: #2d5f94;
+  --blue-tag-bg: #10345a;
+  --blue-tag-fg: #9ccbfa;
+  --badge-bg: #1f7ad6;
+  --sidebar: #031425;
+  --sidebar-hover: #0c2a47;
+  --sidebar-active: #10345a;
+  --ok: #3fe0c2;
+  --warn: #f0b95a;
+  --warn-soft: #33291a;
+  --crit: #ff8a80;
+  --crit-soft: #3a1f26;
+  --shadow-composer: 0 0 0 1px var(--line), 0 6px 22px -14px rgba(0, 0, 0, 0.6);
+  --shadow-composer-focus: 0 0 0 1px var(--accent-soft), 0 6px 22px -14px rgba(0, 0, 0, 0.6);
+  --shadow-menu: 0 0 0 1px var(--line), 0 14px 30px -14px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="dark"] .topbar-action-btn:hover {
+  background: var(--hover);
+}
+
+:root[data-theme="dark"] .mode-toggle {
+  background: var(--line);
 }

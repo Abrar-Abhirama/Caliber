@@ -768,3 +768,106 @@ button.rel-asset:hover b {
     margin-left: 0;
   }
 }
+
+/* ---------- Reliability page theme layer: navy ink, pale aqua gradients, mint accent ---------- */
+
+.rel-inner {
+  --p-navy: #02294b;
+  --p-teal: #0f9d8a;
+  --p-mint: #2fd0b0;
+  --p-blue: #1f7ad6;
+  --p-card: linear-gradient(160deg, #ffffff 0%, #f1f8ff 55%, #e3f6fa 100%);
+  --p-line: rgba(2, 41, 75, 0.1);
+  --rel-cm: #02294b;
+  --rel-pm: #1f7ad6;
+  --rel-pdm: #2fd0b0;
+  --rel-oth: #62b9d6;
+  --rel-oth-bg: #e6f6fa;
+  font-family: "Plus Jakarta Sans", var(--font-sans);
+  color: var(--p-navy);
+}
+
+:root[data-theme="dark"] .rel-inner {
+  --p-navy: #e8f4ff;
+  --p-teal: #3fe0c2;
+  --p-mint: #3fe0c2;
+  --p-blue: #5aa8f5;
+  --p-card: linear-gradient(160deg, #0b2a47 0%, #0a2238 60%, #0a2c3a 100%);
+  --p-line: rgba(180, 225, 255, 0.14);
+  --rel-cm: #e8f4ff;
+  --rel-pm: #5aa8f5;
+  --rel-pdm: #3fe0c2;
+  --rel-oth: #4a8fb0;
+  --rel-oth-bg: #0f2f45;
+}
+
+.rel-inner .ins-title h1 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg, var(--p-teal), var(--p-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rel-inner .rel-card,
+.rel-inner .rel-kpi,
+.rel-inner .rel-filtered {
+  border: 1px solid var(--p-line);
+  border-radius: 20px;
+  background: var(--p-card);
+}
+
+.rel-inner .rel-kpi b,
+.rel-inner .rel-card-hd h2 {
+  color: var(--p-navy);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.rel-inner .rel-kpi b {
+  font-size: 28px;
+}
+
+.rel-inner .rel-kpi small,
+.rel-inner .rel-kpi span,
+.rel-inner .rel-card-hd small {
+  color: color-mix(in srgb, var(--p-navy) 62%, transparent);
+}
+
+.rel-inner .ins-chip {
+  border-color: var(--p-line);
+  color: var(--p-navy);
+  background: transparent;
+}
+
+.rel-inner .ins-chip:hover {
+  border-color: var(--p-navy);
+}
+
+.rel-inner .ins-chip[aria-pressed="true"],
+.rel-inner .ins-chip.active {
+  background: var(--p-navy);
+  color: #fff;
+  border-color: var(--p-navy);
+}
+
+:root[data-theme="dark"] .rel-inner .ins-chip[aria-pressed="true"],
+:root[data-theme="dark"] .rel-inner .ins-chip.active {
+  color: #02294b;
+}
+
+.rel-bar.is-cm { fill: var(--rel-cm); }
+.rel-bar.is-pm { fill: var(--rel-pm); }
+.rel-bar.is-pdm { fill: var(--rel-pdm); }
+.rel-hatch-bg { fill: var(--rel-oth-bg); }
+.rel-hatch-line { stroke: var(--rel-oth); }
+.rel-grid { stroke: var(--p-line); }
+
+.rel-legend i.is-cm { background: var(--rel-cm); }
+.rel-legend i.is-pm { background: var(--rel-pm); }
+.rel-legend i.is-pdm { background: var(--rel-pdm); }
+.rel-legend i.is-oth { background: repeating-linear-gradient(45deg, var(--rel-oth) 0 1.5px, var(--rel-oth-bg) 1.5px 3.5px); }
+
+.rel-inner .rel-track { background: color-mix(in srgb, var(--p-navy) 8%, transparent); }
+.rel-inner .rel-track i { background: linear-gradient(90deg, var(--p-blue), var(--p-mint)); }

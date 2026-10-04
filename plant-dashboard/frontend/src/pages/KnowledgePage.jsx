@@ -34,7 +34,8 @@ export default function KnowledgePage({ onAskInChat }) {
       const params = new URLSearchParams({
         q: q || "",
         ...(asset ? { asset } : {}),
-        limit: "48",
+        // Browsing (no query) must list every record for the asset; a search only needs the top matches.
+        limit: q && q.trim() ? "200" : "1000",
       });
       const res = await fetch(`/api/knowledge/search?${params.toString()}`).then((r) => r.json());
       setResults(res.data?.passages || []);
@@ -114,8 +115,8 @@ export default function KnowledgePage({ onAskInChat }) {
             gap: "7px",
             padding: "0 16px",
             height: "42px",
-            background: "var(--brand)",
-            color: "#fff",
+            background: "var(--p-grad)",
+            color: "var(--on-accent)",
             border: "none",
             borderRadius: "8px",
             fontWeight: 600,
@@ -223,9 +224,6 @@ export default function KnowledgePage({ onAskInChat }) {
               </div>
 
               <div className="kb-actions">
-                <button className="kb-action" onClick={() => setSelectedDoc(item)}>
-                  Details
-                </button>
                 {item.pdfUrl ? (
                   <button
                     className="kb-action"

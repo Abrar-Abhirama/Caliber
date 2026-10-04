@@ -1,18 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IconBook, IconChevronUpDown, IconTrash, IconUser } from "./icons.jsx";
 import { useDismiss } from "./useDismiss.js";
-
-const STORAGE_KEY = "plant-hub-profile";
-const DEFAULT_PROFILE = { name: "Dzaky", role: "Plant Engineer" };
-
-function loadProfile() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? { ...DEFAULT_PROFILE, ...JSON.parse(raw) } : DEFAULT_PROFILE;
-  } catch {
-    return DEFAULT_PROFILE;
-  }
-}
+import { DEFAULT_PROFILE, loadProfile, saveProfile } from "../../services/profile.js";
 
 const initials = (name) =>
   name
@@ -80,11 +69,7 @@ export default function ProfileMenu({ onOpenKnowledge, onClearChats, hasChats })
   const save = (next) => {
     setProfile(next);
     setEditing(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      // Profile just won't persist.
-    }
+    saveProfile(next);
   };
 
   const pick = (fn) => () => {

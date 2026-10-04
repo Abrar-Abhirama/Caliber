@@ -18,7 +18,7 @@ export default function ModeTopbar({ sidebarOpen, onOpenSidebar, onNewChat, mode
         )}
         <span className="topbar-brand">
           <BrandLogo size={22} className="brand-top" />
-          <span className="topbar-title">Plant Assistant</span>
+          <span className="topbar-title">Brody</span>
         </span>
       </div>
       {modeToggle}

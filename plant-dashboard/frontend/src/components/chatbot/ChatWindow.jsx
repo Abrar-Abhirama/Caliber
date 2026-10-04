@@ -20,10 +20,11 @@ import {
   IconSidebar,
 } from "../common/icons.jsx";
 import { copyToClipboard } from "../../services/clipboard.js";
+import { useProfileName } from "../../services/profile.js";
 
 export function formatConversation(messages, { assetContext, model } = {}) {
   const parts = [];
-  parts.push("=== Plant Assistant Chat Transcript ===");
+  parts.push("=== Brody Chat Transcript ===");
   parts.push(`Date: ${new Date().toLocaleString()}`);
   if (assetContext) parts.push(`Equipment / Asset: ${assetContext}`);
   if (model) parts.push(`Model: ${model}`);
@@ -36,7 +37,7 @@ export function formatConversation(messages, { assetContext, model } = {}) {
       parts.push("");
     } else {
       const modelInfo = msg.model ? ` (via ${msg.model})` : "";
-      parts.push(`[Plant Assistant${modelInfo}]:`);
+      parts.push(`[Brody${modelInfo}]:`);
       if (msg.error) {
         parts.push(`Error: ${msg.answer}`);
       } else {
@@ -102,6 +103,7 @@ export default function ChatWindow({
   onNewChat,
   modeToggle,
 }) {
+  const profileName = useProfileName();
   const scrollRef = useRef(null);
   const [pinsOpen, setPinsOpen] = useState(false);
   const [flashIndex, setFlashIndex] = useState(null);
@@ -168,7 +170,7 @@ export default function ChatWindow({
           )}
           <span className="topbar-brand">
             <BrandLogo size={22} className="brand-top" />
-            <span className="topbar-title">Plant Assistant</span>
+            <span className="topbar-title">Brody</span>
           </span>
         </div>
         {modeToggle}
@@ -230,7 +232,7 @@ export default function ChatWindow({
         <div className="chat-empty">
           <div className="chat-empty-head">
             <BrandLogo size={52} className="brand-hero" />
-            <h1 className="chat-empty-title">What can I help with?</h1>
+            <h1 className="chat-empty-title">Hi {profileName}, what can I help with?</h1>
           </div>
           <Composer onSend={onSend} disabled={busy} assetContext={assetContext} tools={tools} autoFocus />
           <div className="suggestions">
@@ -272,7 +274,7 @@ export default function ChatWindow({
           <div className="composer-dock">
             <Composer onSend={onSend} disabled={busy} assetContext={assetContext} tools={tools} />
             <p className="disclaimer">
-              Plant Assistant can make mistakes. Check critical setpoints against the source.
+              Brody can make mistakes. Check critical setpoints against the source.
             </p>
           </div>
         </>

@@ -2,6 +2,7 @@ import { IconBook, IconChat, IconNewChat, IconPin, IconSidebar, IconTrash } from
 import { snippet } from "../chatbot/snippet.js";
 import BrandLogo from "./BrandLogo.jsx";
 import ProfileMenu from "./ProfileMenu.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 export default function Sidebar({
   open,
@@ -28,7 +29,7 @@ export default function Sidebar({
       <div className="sidebar-head">
         <span className="sidebar-brand">
           <BrandLogo size={28} />
-          <span className="sidebar-brand-name">Plant Assistant</span>
+          <span className="sidebar-brand-name">Brody</span>
         </span>
         <button className="icon-btn" onClick={onToggle} aria-label="Close sidebar" title="Close sidebar">
           <IconSidebar />
@@ -125,6 +126,7 @@ export default function Sidebar({
         )}
       </div>
 
+      <ThemeToggle />
       <ProfileMenu onOpenKnowledge={onOpenKnowledge} onClearChats={onClearChats} hasChats={conversations.length > 0} />
     </aside>
   );
